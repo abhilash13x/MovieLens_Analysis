@@ -39,8 +39,3 @@ joined_movie_rating_user_df = joined_ratings_user_df.join(broadcast(exploded_mov
 agg_result = joined_movie_rating_user_df.groupby("year","genre").agg(avg("rating").alias("Avg_Rating")).sortWithinPartitions("year","genre")    #Set shuffle partition if needed
 
 agg_result.write.parquet("/FileStore/tables/results", mode="overwrite")
-
-
-# COMMAND ----------
-
-
