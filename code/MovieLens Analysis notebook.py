@@ -8,9 +8,9 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Define file paths
-movies_path = "/FileStore/tables/movies.dat"
-ratings_path = "/FileStore/tables/ratings.dat"
-users_path = "/FileStore/tables/users.dat"
+movies_path = "../data/movies.dat"
+ratings_path = "../data/ratings.dat"
+users_path = "../data/users.dat"
 
 # Define Partial schema to reduce the amount of data read
 movies_schema = StructType([StructField("movieId", IntegerType(), True),
@@ -38,4 +38,4 @@ joined_movie_rating_user_df = joined_ratings_user_df.join(broadcast(exploded_mov
 
 agg_result = joined_movie_rating_user_df.groupby("year","genre").agg(avg("rating").alias("Avg_Rating")).sortWithinPartitions("year","genre")    #Set shuffle partition if needed
 
-agg_result.write.parquet("/FileStore/tables/results", mode="overwrite")
+agg_result.write.parquet("../results", mode="overwrite")
